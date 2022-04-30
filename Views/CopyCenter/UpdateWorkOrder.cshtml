@@ -1,0 +1,625 @@
+﻿@model PrintShop.ViewModels.CopyCenterCreateViewModel
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+
+<div class="form-control" style="padding: 1%; background-color: rgb(227,227,227)">
+
+ <form asp-action="AddItemsRebill" id="PlanForm">
+<div class="row">          
+    <input asp-for="WorkPkey" style="display: none" />
+                       <div class="col-1">
+                     <p style="margin-top:5%">DAlias:</p>
+                       </div>
+
+                       <div class="col-4" style="margin-left: -4%">
+                       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                       <select asp-for="DAlias" asp-items="Model.DAliasList" class="form-control" id="DAliasContainer"></select>
+                       <span asp-validation-for="DAlias" class="text-danger"></span>
+                       </div>
+
+                       <div class="col-1">
+                     <p style="margin-top:5%">Account:</p>
+                       </div>
+
+                       <div class="col-3" style="margin-left: -3%">
+                       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                       <select asp-for="Account" asp-items="Model.AccountList" class="form-control" id="accountContainer"></select>
+                       <span asp-validation-for="Account" class="text-danger"></span>
+                       </div>
+                       <div class="col-1">
+                     <p style="margin-top:5%">Form #:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -3%">
+                       <input asp-for="wo_nmbr" class="form-control"  id="nmbrContainer" required="required" />
+                       </div>
+</div>
+                       
+          <div class="row" style="padding-top:2%">          
+                
+                       <div class="col-1">
+                     <p style="margin-top:5%">Dept:</p>
+                       </div>
+
+                       <div class="col-4" style="margin-left: -4%">
+                       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                       <select asp-for="Dept" asp-items="Model.DeptList" class="form-control" id="deptContainer"></select>
+                       <span asp-validation-for="Dept" class="text-danger"></span>
+                       </div>
+
+                       <div class="col-1">
+                     <p style="margin-top:5%">Project:</p>
+                       </div>
+                       <div class="col-3" style="margin-left: -3%">                          
+                        <select asp-for="Project" asp-items="Model.Projects" class="form-control" id="projectContainer"></select>
+                        <span asp-validation-for="Project" class="text-danger"></span>
+                       </div>
+                       
+                           
+                       <div class="col-1">
+                     <p style="margin-top:5%">Task:</p>
+                       </div>
+
+                       <div class="col-1" style="margin-left: -5%" >
+                        <select asp-for="Task" asp-items="Model.Tasks" class="form-control" id="taskContainer"></select>
+                        <span asp-validation-for="Task" class="text-danger"></span>
+                       </div>
+         </div>
+         <div class="row" style="padding-top:2%">  
+                       <div class="col-2">
+                       <p style="margin-top:3%">Cost Center:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -9%">
+                        <input asp-for="CostCenter" class="form-control" readonly="readonly" id="CostCenter" />
+                         <span asp-validation-for="CostCenter" class="text-danger"></span>
+                       </div>
+
+                        <div class="col-2">
+                       <p style="margin-top:3%">Name:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -12%">                        
+                         <input asp-for="name" class="form-control" id="nameContainer" required="required"/>
+                       </div>
+
+                       <div class="col-2">
+                       <p style="margin-top:3%">Phone:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -12%">
+                        <input asp-for="Phone" class="form-control" id="phoneContainer"/>
+                       </div>
+
+            </div>
+            <div class="row" style="padding-top:2%"> 
+                       <div class="col-2">
+                       <p style="margin-top:3%">Todays Date:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -9%">
+                           <p class="form-control">@DateTime.Now</p>
+                       </div>
+
+                       <div class="col-2">
+                       <p style="margin-top:3%">Requested Date:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -7%">
+                        <p class="form-control">@DateTime.Now</p>
+                       </div>                       
+            </div>
+            <div class="row" style="padding-top:2%">
+                 <div class="col-2">
+                       <p style="margin-top:3%">Job Name:</p>
+                       </div>
+                       <div class="col-8" style="margin-left: -9%">
+                       <input asp-for="JobDescription" class="form-control" id="jobContainer" required="required"/>
+                       </div>
+             </div>
+             <hr />
+             <div class="row" style="padding-top:2%; text-align:center">
+                 <h6>Special Instructions - or - Special Paper Orders</h6>
+             </div>
+             <div class="row">
+                <div class="form-group col-xs-6" style="white-space: nowrap;">
+                   <input asp-for="Note" class="form-control" id="noteContainer" />
+                </div>
+                </div>
+
+      @if(Model.copyCenters.Count != 0)
+        {
+            <div class="col" style="text-align:center">
+                <table class="table">
+              <thead>
+    <tr>
+      <th scope="col">Type</th>
+      <th scope="col">Size</th>
+      <th scope="col">Description</th>
+      <th scope="col">Unit Cost</th>
+      <th scope="col">Qty</th>
+      <th scope="col">Total Cost</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+      @{
+          double? total = 0.0;
+      }
+      @foreach (var cc in Model.copyCenters)
+      {
+           {total += cc.ImpressionCnt * Convert.ToDouble(cc.UnitCost);}
+      <tr id="@cc.ProductPkey">
+      <td scope="row">@cc.ProductCategory</td>
+      <td>@cc.StockSize</td>
+      <td>@cc.ProductDesc</td>
+      <td>@cc.UnitCost</td>
+      <td>@cc.ImpressionCnt</td>
+      @{
+      var cost = @cc.ImpressionCnt * @cc.UnitCost;
+      }
+      <td>@cost</td>
+      <td><i class="fa fa-trash" onclick="removeProduct(this)" id="@cc.ProductPkey" ></i></td>
+    </tr>
+      }
+     
+      </tbody>
+        </table>
+        @{
+       var calcTotal = Math.Round((double)total * 100) / 100;
+       }
+        <p>Total: $@calcTotal</p>
+        </div>
+        }
+
+        
+
+  <div class="row" style="padding-top:2%; text-align:center">
+    <div class="row">
+                <div class="col-2" style="white-space: nowrap;">
+                  <label asp-for="ProductNames" class="control-label"></label>
+                  <select asp-for="ProductNames" asp-items="Model.ProductNamesList" class="form-control" id="productContainer"></select>
+                  <span asp-validation-for="ProductNames" class="text-danger"></span>
+                </div>
+              <div class="col-2" > 
+                 <label asp-for="Size" class="control-label"></label>
+                 <select asp-for="Size" asp-items="Model.ProductSizes" class="form-control" id="sizeContainer"></select>
+                 <span asp-validation-for="Size" class="text-danger"></span>
+              </div>
+              <div class="col-3" >  
+                 <label asp-for="Product_Description" class="control-label"></label>
+                 <select asp-for="Product_Description" asp-items="Model.ProductDescriptionList" class="form-control" id="descContainer"></select>
+                 <span asp-validation-for="Product_Description" class="text-danger"></span>
+              </div>
+              <div class="col-1" >  
+                 <label asp-for="Copies" class="control-label"></label>
+                <input asp-for="Copies" class="form-control" id="copiesContainer" min="0" />
+              </div>
+               <div class="col-1" >  
+                 <label asp-for="Qty" class="control-label"></label>
+                <input asp-for="Qty" class="form-control" id="qtyContainer" min="0"/>
+              </div>
+              <div class="col-2" >  
+                 <label asp-for="Unit_Type" class="control-label"></label>
+                 <select asp-for="Unit_Type" asp-items="Model.UnitTypeList" class="form-control" id="unitContainer"></select>
+                 <span asp-validation-for="Unit_Type" class="text-danger"></span>
+              </div>
+               <div class="col-1" style="margin-top: 2%">  
+                <input class="btn btn-success" type="submit" value="Add" id="btnContainer"/>
+                                 
+              </div>              
+    </div> 
+</div>
+<div class="row" style="margin-top: 2%">
+    <div class="col-2">   
+    <label asp-for="press_labor_hours" class="control-label"></label>
+    <input asp-for="press_labor_hours" class="form-control" id="laborContainer" />
+
+</div>
+
+
+
+ <span asp-validation-for="products" class="text-danger"></span>
+</form>
+
+  <div class="form-group" >
+      
+       <form asp-action="Rebill" id="PlanForm">
+           <div style="display: none;">
+               <select asp-for="DAlias" asp-items="Model.DAliasList" class="form-control" id="DAliasContainerHidden"></select>
+               <select asp-for="Account" asp-items="Model.AccountList" class="form-control" id="accountContainerHidden"></select>
+               <select asp-for="Dept" asp-items="Model.DeptList" class="form-control" id="deptContainerHidden"></select>
+               <select asp-for="Project" asp-items="Model.Projects" class="form-control" id="projectContainerHidden"></select>
+               <select asp-for="Task" asp-items="Model.Tasks" class="form-control" id="taskContainerHidden"></select>
+              
+               
+              
+
+      <input asp-for="press_labor_hours" class="form-control" id="laborContainerHidden" />
+      <input asp-for="CostCenter" class="form-control" readonly="readonly" id="CostCenterHidden" />
+      <input asp-for="name" class="form-control" id="nameContainerHidden"/>
+      <input asp-for="Phone" class="form-control" id="phoneContainerHidden"/>
+      <input asp-for="JobDescription" class="form-control" id="jobContainerHidden" />
+      <input asp-for="Note" class="form-control" id="noteContainerHidden" />
+      <input asp-for="wo_nmbr" class="form-control" id="nmbrContainerHidden" required="required"/>
+      
+      @if(Model.copyCenters.Count != 0)
+        {
+     for(var i =0; i < Model.copyCenters.Count; i++)
+                {
+                    <input type="text" asp-for="copyCenters[i].CopiesQty" value="@Model.copyCenters[i].CopiesQty" /> 
+                    <input type="text" asp-for="copyCenters[i].OriginalQty" value="@Model.copyCenters[i].OriginalQty" /> 
+                    <input type="text" asp-for="copyCenters[i].ProductPkey" value="@Model.copyCenters[i].ProductPkey" />
+                }
+
+        }
+                           
+        </div>
+        <div class="row">
+         <div class="col-6" style="margin-top: 2%">  
+             </div>
+                <div class="col-6" style="margin-top: 2%">  
+                    <button value="Create" id="btnsubmit"  class="btn btn-primary">Update and rebill</button>
+             </div>                                            
+                </div>
+                </form>
+</div>
+
+</div>
+<script>
+
+     $(document ).ready(function() { 
+         
+         
+
+          
+         $("#btnsubmit").click(function () {
+             
+             var labor = $('#laborContainer').val();
+             $('#laborContainerHidden').val(labor);
+             var nmbr = $('#nmbrContainer').val();
+             $('#nmbrContainerHidden').val(nmbr);
+             var name = $('#nameContainer').val();
+             $('#nameContainerHidden').val(name);
+             var phone = $('#phoneContainer').val();
+             $('#phoneContainerHidden').val(phone);
+             var Jobname = $('#jobContainer').val();
+             $('#jobContainerHidden').val(Jobname);
+             var note = $('#noteContainer').val();
+             $('#noteContainerHidden').val(note);
+
+    });
+
+         var product = $('#productContainer option:selected').text();
+         $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetSizesByProduct", "Home")?productType=${product}`,
+                    success: function(msg) {
+                        $('#sizeContainer').html(msg);   
+                        UpdateDesc();
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+});
+
+                var selected = $('#projectContainer option:selected').text();
+
+                    $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetTasksByProjectId", "Home")?projectId=${selected}`,
+                    success: function(msg) {
+                        $('#taskContainer').html(msg);
+                        $('#taskContainerHidden').html(msg);
+                        UpdateCostCenter();
+                        $("#taskContainer").on('change', UpdateCostCenter);
+                       $("#taskContainer").val(@Model.Task);
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+});
+
+function UpdateCostCenter() {
+            var selectedTask = $('#taskContainer option:selected').text();
+            var selectedproject = $('#projectContainer option:selected').text();
+
+            console.log(selected)
+            $.ajax({
+                type: "GET",
+                url: `@Url.Action("GetCostCenterByProjectIdTaskId", "Home")?projectId=${selectedproject}&taskId=${selectedTask}`,
+                success: function(msg) {
+                    $('#CostCenter').val(msg);
+                    $('#CostCenterHidden').val(msg);
+                },
+                error: function(req, status, error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function UpdateDesc(){
+          var product = $('#productContainer option:selected').text();
+          var size = $('#sizeContainer option:selected').text();
+            $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetDescByProductandSize", "Home")?product=${product}&size=${size}`,
+                    success: function(msg) {
+                        $('#descContainer').html(msg);      
+                        UpdateType();
+                        
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+});
+};
+function UpdateType(){
+        var product = $('#productContainer option:selected').text();
+        var size = $('#sizeContainer option:selected').text();
+        var desc = $('#descContainer option:selected').text(); 
+             $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetUnit", "Home")?product=${product}&size=${size}&desc=${desc}`,
+                    success: function(msg) {
+                        $('#unitContainer').html(msg);                        
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+});
+}
+
+         
+    
+});
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function removeProduct(clicked){         
+            var product = clicked.id;
+            $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("RemoveProduct", "CopyCenter")?woKey=${@Model.WorkPkey}&pPkey=${product}`,
+                    success: function() {
+                       
+                    }
+    });
+    
+    window.location.reload();
+    
+        }
+        $("#btnContainer").on('click',
+        function() {
+        var product = $('#productContainer option:selected').text();
+        var size = $('#sizeContainer option:selected').text();
+        var desc = $('#descContainer option:selected').text();        
+        var qty = document.getElementById('qtyContainer').value;
+        
+        $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("AddProduct", "Home")?productType=${product}&size=${size}&desc=${desc}&qty=${qty}`,
+                    success: function(response) {
+                       window.location.reload();
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+    }); 
+    window.location.reload();
+    });
+   
+         
+         
+         //Update hidden labor
+         $("#laborContainer").on('change', 
+         function() {
+        var labor = $('#laborContainer').val();
+         $('#laborContainerHidden').val(labor);
+         });
+         //Update hidden form num
+         $("#nmbrContainer").on('change', 
+         function() {
+        var wonmbr = $('#nmbrContainer').val();
+         $('#nmbrContainerHidden').val(wonmbr);
+         });
+         //Update Hidden DAlias
+        $("#DAliasContainer").on('change', 
+         function() {
+             var selected = $('#DAliasContainer option:selected').text();
+             $('#DAliasContainerHidden').val(selected);
+             });       
+       //Update Hidden Account
+        $("#accountContainer").on('change', 
+         function() {
+             var selected = $('#accountContainer option:selected').text();
+             $('#accountContainerHidden').val(selected);
+             });
+
+
+
+         //Update sizes and desc after product change
+         $("#productContainer").on('change',
+         function() {
+         UpdateSize();
+         UpdateType();
+         });
+
+
+         $("#descContainer").on('change',
+         function() {
+         UpdateType();
+         });
+
+
+           //Update product desc when size changes
+           $("#sizeContainer").on('change',
+           function() {
+           UpdateDesc();
+           });
+
+            $("#taskContainer").on('change',
+            function() {
+                var selected = $('#taskContainer option:selected').text();               
+                $('#taskContainerHidden').val(selected);
+                 $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("HiddenProject", "Home")?projectId=${selected}`,
+                    success: function(msg) {
+                         $('#taskContainer2').html(msg)                       
+                    }
+                });
+            });
+            
+          //Update tasks when project changes 
+        $("#projectContainer").on('change',
+            function() {
+                var selected = $('#projectContainer option:selected').text();
+        $('#projectContainerHidden').val(selected);
+           
+             
+                $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetTasksByProjectId", "Home")?projectId=${selected}`,
+                    success: function(msg) {
+                        $('#taskContainer').html(msg);
+                        $('#taskContainerHidden').html(msg);
+                        UpdateCostCenter();
+                        $("#taskContainer").on('change', UpdateCostCenter);
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            
+
+
+
+
+
+
+
+            //Updates projects and tasks when department changes
+        $("#deptContainer").on('change',
+            function() {
+                var selected = $('#deptContainer option:selected').text();
+                  $('#deptContainerHidden').val(selected);
+                 $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetProjectsByDeptName", "Home")?deptName=${selected}`,
+                    success: function(msg) {                     
+                        $('#projectContainer').html(msg);
+                        $('#projectContainerHidden').html(msg);
+
+                        
+                 var proj = $('#projectContainer option:selected').text();
+                $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetTasksByProjectId", "Home")?projectId=${proj}`,
+                    success: function(msg) {
+                        $('#taskContainer').html(msg);
+                        $('#taskContainerHidden').html(msg);
+                        UpdateCostCenter();
+                        $("#taskContainer").on('change', UpdateCostCenter);
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+                });
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+ });
+});
+
+
+        $("#projectContainer").on('change',
+            function() {
+                var selected = $('#projectContainer option:selected').text();
+              
+                $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetTasksByProjectId", "Home")?projectId=${selected}`,
+                    success: function(msg) {
+                        $('#taskContainer').html(msg);
+                        $('#taskContainerHidden').html(msg);
+                        UpdateCostCenter();
+                        $("#taskContainer").on('change', UpdateCostCenter);
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+        $("#taskContainer").on('change', UpdateCostCenter);
+        function UpdateCostCenter() {
+            var selected = $('#taskContainer option:selected').text();           
+              $('#taskContainerHidden').val(selected);
+            var project = $('#projectContainer option:selected').text();
+            console.log(selected)
+            $.ajax({
+                type: "GET",
+                url: `@Url.Action("GetCostCenterByProjectIdTaskId", "Home")?projectId=${project}&taskId=${selected}`,
+                success: function(msg) {
+                    $('#CostCenter').val(msg);
+                    $('#CostCenterHidden').val(msg);
+                },
+                error: function(req, status, error) {
+                    console.log(error);
+                }
+            });
+        }
+
+
+function UpdateSize() {
+        var product = $('#productContainer option:selected').text();
+         $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetSizesByProduct", "Home")?productType=${product}`,
+                    success: function(msg) {
+                        $('#sizeContainer').html(msg);
+                        UpdateDesc();
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+                });
+      }
+
+function UpdateDesc() {
+          var product = $('#productContainer option:selected').text();
+          var size = $('#sizeContainer option:selected').text();
+
+                $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetDescByProductandSize", "Home")?product=${product}&size=${size}`,
+                    success: function(msg) {
+                        $('#descContainer').html(msg);
+                        UpdateType();
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+                       });
+         }
+
+function UpdateType(){
+        var product = $('#productContainer option:selected').text();
+        var size = $('#sizeContainer option:selected').text();
+        var desc = $('#descContainer option:selected').text(); 
+             $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("GetUnit", "Home")?product=${product}&size=${size}&desc=${desc}`,
+                    success: function(msg) {
+                        $('#unitContainer').html(msg);                        
+                    },
+                    error: function(req, status, error) {
+                        console.log(error);
+                    }
+});
+
+}
+    </script>
+}

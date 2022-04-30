@@ -1,0 +1,53 @@
+﻿@model PrintShop.Models.Entity.System
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit System</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditSystem">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SystemPkey" />
+            <div class="form-group">
+                <p style="margin-bottom: -0.5%">Copy Cost B/W</p>
+                <input asp-for="CopierCost" class="form-control" />
+                <span asp-validation-for="CopierCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p style="margin-bottom: -0.5%">Copy Cost Color</p>
+                <input asp-for="CopierCostColor" class="form-control" />
+                <span asp-validation-for="CopierCostColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p style="margin-bottom: -0.5%">Copy Center Labor Cost</p>
+                 <input asp-for="CopyCntrLaborCst" class="form-control" />
+                <span asp-validation-for="CopyCntrLaborCst" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p style="margin-bottom: -0.5%">Imaging Cost</p>
+                 <input asp-for="Imagingcost" class="form-control" />
+                <span asp-validation-for="Imagingcost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p style="margin-bottom: -0.5%">Film Roll Cost</p>
+                 <input asp-for="FilmRollCost" class="form-control" />
+                <span asp-validation-for="FilmRollCost" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top: 1%">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

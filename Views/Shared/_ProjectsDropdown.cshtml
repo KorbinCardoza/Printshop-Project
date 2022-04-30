@@ -1,0 +1,5 @@
+﻿@model PrintShop.ViewModels.MailTransactionViewModel
+
+<label asp-for="Project" class="control-label"></label>
+<select asp-for="Project" asp-items="Model.Projects" class="form-control"></select>
+<span asp-validation-for="Project" class="text-danger"></span>

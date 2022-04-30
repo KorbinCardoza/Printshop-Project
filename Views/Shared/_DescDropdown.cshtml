@@ -1,0 +1,5 @@
+﻿@model PrintShop.ViewModels.CopyCenterCreateViewModel
+
+
+<select asp-for="Product_Description" asp-items="Model.ProductDescriptionList" class="form-control"></select>
+<span asp-validation-for="Product_Description" class="text-danger"></span>

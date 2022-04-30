@@ -1,0 +1,56 @@
+﻿@using System.Collections.Specialized
+@model PrintShop.ViewModels.MailMeterViewModel
+
+<h4>Update Mail Meter</h4>
+<div class="jumbotron">
+    <div class="container">
+        <form asp-action="UpdateMailMeter" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SystemId" />
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label asp-for="CurrentMailMeter" class="control-label"></label>
+                        <input asp-for="CurrentMailMeter" readonly="readonly" class="form-control" id="current"/>
+                        <span asp-validation-for="CurrentMailMeter" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label asp-for="AdjustmentAmount" class="control-label"></label>
+                        <input type="number" step="0.01" asp-for="AdjustmentAmount" class="form-control" id="adjust" onchange="test()" />
+                        <span asp-validation-for="AdjustmentAmount" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label asp-for="NewMailMeter" class="control-label"></label>
+                        <input asp-for="NewMailMeter" readonly="readonly" class="form-control" id="newMeter" />
+                        <span asp-validation-for="NewMailMeter" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>  
+          function test() {
+               var adjust = Number(document.getElementById("adjust").value);
+               var current = Number(document.getElementById("current").value);
+  
+               document.getElementById("newMeter").value = adjust + current;
+            //alert(adjust + current);
+           
+        }
+    </script>
+}

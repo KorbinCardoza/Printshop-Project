@@ -1,0 +1,84 @@
+﻿@model IEnumerable<PrintShop.Models.Entity.WorkOrder>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5b2bd23d5f.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+   <script>
+
+   $(document).ready( function () {
+    $('#filterTable').DataTable({ 
+       "order": [[ 4, "desc" ]] 
+    }); 
+} );
+</script>
+
+<h1 style="text-align: center">Printing</h1>
+
+<p style="text-align: center">
+    <a class="btn btn-primary" asp-action="Create">Create New Print Billing</a>
+</p>
+<div style="text-align: center">
+    <p>Please enter a time range and click search</p>
+@using (Html.BeginForm("Index","CopyCenter", FormMethod.Post))
+            {
+                <label for="start">Start date:</label>
+                <input type="date" id="start" name="tripstart"                
+                 min="2015-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")">
+
+                <label for="start">End date:</label>
+                <input type="date" id="end" name="tripend"               
+                 min="2015-02-01" max="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                        
+               <input type="submit" class="btn btn-primary btn-sm" value="Search" />
+              
+            }            
+</div>
+<form id="form1" runaat="server">
+            <table id="filterTable" class="display" style="border-collapse: separate; border-spacing: 1em; white-space: nowrap;">
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>WO Number</th>
+                        <th>Description</th>
+                        <th>Sender</th>
+                        <th>Created Date</th>
+                        <th>Billed Date</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+@{       
+    if(Model != null)
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style = "background-color:white">
+                                @item.DeptName
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.WoNmbr)
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.JobDescription)
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.SenderName)
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.WoCreateDt)
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.BillDt)
+                            </td>
+                           <td style = "background-color:white">
+                                <a href="@Url.Action("Details", "CopyCenter", new {id = item.WoPkey})" class="btn btn-primary">
+                                    <i class="fas fa-info"></i>
+                            </td>
+                        </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </form>

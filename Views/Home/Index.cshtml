@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron" style="padding-bottom: 3%">
+    <div class="container" style="text-align: center">
+        <h1 class="display-3" >Welcome to the PrintShop!</h1>
+        <p>Please select from one of the options below.</p>
+        <div style="display: inline; text-align:center">
+        <p style="text-align:center; display: inline;">Issues? Submit a ticket </p> 
+        <a href="https://srvalloy.cityofsalem.net/" target="_blank" style="text-align:center; display: inline;">here.</a>
+       </div>
+    </div>
+</div>
+
+<div class="container" style="text-align: center">
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Copiers Office</h2>
+            <p>Access copiers office billing<p>
+                <a class="btn btn-secondary"  href="@Url.Action("Index", "CopiersOffice")" role="button">Go to Copiers Office &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-3">
+            <h2>Copy Center</h2>
+            <p>Create work orders<p>
+                <a class="btn btn-secondary" href="@Url.Action("Index", "CopyCenter")" role="button">Go to Copy Center &raquo;</a></p>
+            </p>
+        </div>
+                <div class="col-md-3">
+            <h2>Imaging</h2>
+            <p>Create imaging orders<p>
+                <a class="btn btn-secondary" href="@Url.Action("Index", "Imaging")" role="button">Go to Imaging Center &raquo;</a></p>
+            </p>
+        </div>
+        <div class="col-md-3">
+            <h2>Mail Center</h2>
+            <p>View daily activity<p><a class="btn btn-secondary" href="@Url.Action("Index", "MailTransactions")" role="button">Go to Mail Center &raquo;</a></p>
+        </div>
+    </div>
+    <hr>
+</div> <!-- /container -->

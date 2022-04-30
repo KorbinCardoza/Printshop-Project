@@ -1,0 +1,280 @@
+﻿@model PrintShop.ViewModels.CopyCenterViewModel
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5b2bd23d5f.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+   <script>
+
+   $(document).ready( function () {
+    $('#filterTable').DataTable();
+} );
+</script>
+
+ @if (@Model.workOrder.BillDt == null)
+{
+    <form asp-action="Bill" id="PlanForm">
+        <div style="display: none;"> 
+            <input asp-for="workOrder.AcctCode" class="form-control" id="acctContainerHidden" />
+            <input asp-for="workOrder.CostCenter" class="form-control" id="costContainerHidden" />
+            <input asp-for="workOrder.JobDescription" class="form-control" id="jobContainerHidden" />
+            <input asp-for="totalCost" class="form-control" id="costContainerHidden" />
+            <input asp-for="workOrder.Task" class="form-control" id="costContainerHidden" />
+            <input asp-for="workOrder.Project" class="form-control" id="costContainerHidden" />
+            <input asp-for="workOrder.WoNmbr" class="form-control"  id="nmbrContainer" required="required" />
+            <input asp-for="workOrder.WoPkey" class="form-control"  id="nmbrContainer" required="required" />
+        </div>
+
+        <div class="col-6" style="margin-top: 2%; margin-left:40%" >  
+            <button value="Bill" id="btnsubmit"  class="btn btn-primary">Bill Work Order</button>
+        </div>
+    </form>
+}
+<div class="form-control" style="padding: 1%; background-color: rgb(227,227,227)">
+    @if(@Model.workOrder.BillDt != null){
+        
+        <form asp-action="UpdateWorkOrder">
+                <div style="display: none;"> 
+               <input asp-for="laborCharge" class="form-control" />
+               <input asp-for="totalCost" class="form-control" id="costContainerHidden" />
+               <input asp-for="workOrder.WoNmbr" class="form-control" required="required" />
+               <input asp-for="workOrder.WoPkey" class="form-control" required="required" />
+                 </div>
+                 
+                <div class="col-6" style="margin-top: 2%; margin-left:40%" >  
+                    <button value="ReBill"  class="btn btn-primary">Update Work Order</button>
+             </div>
+           </form>
+        @if (@Model.workOrder.RebillDt != null)
+        {
+            <h2 style="text-align:center; margin-bottom:2%">THIS WORK ORDER HAS BEEN REBILLED</h2>
+        }
+         @if (@Model.workOrder.RebillDt == null)
+        {
+            <h2 style="text-align:center; margin-bottom:2%">THIS WORK ORDER HAS BEEN BILLED</h2>
+        }
+    }
+    <form asp-action="AdminView">
+                <div style="display: none;"> async
+               <input asp-for="laborCharge" class="form-control" />
+               <input asp-for="totalCost" class="form-control" id="costContainerHidden" />
+               <input asp-for="workOrder.WoNmbr" class="form-control" required="required" />
+               <input asp-for="workOrder.WoPkey" class="form-control" required="required" />
+                 </div>
+        @{
+            var roles = @User.Claims.ToList();
+            foreach(var r in roles)
+            {
+                if(r.Value == "Admin")
+                {
+                    <div class="col-6" style="margin-bottom: 2%; margin-left:40%" >  
+                    <button value="ReBill"  class="btn btn-secondary">Admin Update</button>
+                    </div>
+                }}}       
+             </form>
+<div class="row">       
+     
+                       <div class="col-1">
+                     <p style="margin-top:5%">Alias:</p>
+                       </div>
+
+                       <div class="col-4" style="margin-left: -4%">
+                        @Html.EditorFor(model => model.workOrder.WoDeptAlias, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.WoDeptAlias, "", new { @class = "text-danger" })
+                       </div>
+                       <div class="col-1">
+                     <p style="margin-top:5%">Account:</p>
+                       </div>
+
+                       <div class="col-3" style="margin-left: -3%">
+                        @Html.EditorFor(model => model.workOrder.AcctCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "acctContainer" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.AcctCode, "", new { @class = "text-danger" })
+                       </div>
+                       <div class="col-1">
+                     <p style="margin-top:5%">Form #:</p>
+                       </div>
+                        <div class="col-2" style="margin-left: -3%">
+                        @Html.EditorFor(model => model.workOrder.WoNmbr, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "acctContainer" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.WoNmbr, "", new { @class = "text-danger" })
+                       </div>
+</div>
+            <div class="row" style="padding-top:2%">          
+                
+                       <div class="col-1">
+                     <p style="margin-top:5%">Dept:</p>
+                       </div>
+
+                       <div class="col-4" style="margin-left: -4%">
+                        @Html.EditorFor(model => model.workOrder.DeptName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.DeptName, "", new { @class = "text-danger" })
+                       </div>
+
+                       <div class="col-1">
+                     <p style="margin-top:5%">Project:</p>
+                       </div>
+                       <div class="col-3" style="margin-left: -3%">
+                        @Html.EditorFor(model => model.workOrder.Project, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.Project, "", new { @class = "text-danger" })
+                       </div>
+                       
+                           
+                       <div class="col-1">
+                     <p style="margin-top:5%">Task:</p>
+                       </div>
+
+                       <div class="col-1" style="margin-left: -5%">
+                        @Html.EditorFor(model => model.workOrder.Task, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.Task, "", new { @class = "text-danger" })
+                       </div>
+                    </div>
+
+            <div class="row" style="padding-top:2%">  
+                       <div class="col-2">
+                       <p style="margin-top:3%">Cost Center:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -9%">
+                        @Html.EditorFor(model => model.workOrder.CostCenter, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.CostCenter, "", new { @class = "text-danger" })
+                       </div>
+
+                        <div class="col-2">
+                       <p style="margin-top:3%">Name:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -12%">
+                        @Html.EditorFor(model => model.workOrder.SenderName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.SenderName, "", new { @class = "text-danger" })
+                       </div>
+
+                       <div class="col-2">
+                       <p style="margin-top:3%">Phone:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -12%">
+                        @Html.EditorFor(model => model.workOrder.Phone, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.Phone, "", new { @class = "text-danger" })
+                       </div>
+
+            </div>
+            <div class="row" style="padding-top:2%"> 
+                       <div class="col-2">
+                       <p style="margin-top:3%">Todays Date:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -9%">
+                           <p class="form-control">@DateTime.Now</p>
+                       </div>
+
+                       <div class="col-2">
+                       <p style="margin-top:3%">Requested Date:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -7%">
+                        @Html.EditorFor(model => model.workOrder.WoCreateDt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.WoCreateDt, "", new { @class = "text-danger" })
+                       </div>                       
+            </div>
+             <div class="row" style="padding-top:2%">
+                 <div class="col-2">
+                       <p style="margin-top:3%">Job Name:</p>
+                       </div>
+                       <div class="col-8" style="margin-left: -9%">
+                        @Html.EditorFor(model => model.workOrder.JobDescription, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.JobDescription, "", new { @class = "text-danger" })
+                       </div>
+             </div>
+              <div class="row" style="padding-top:2%">
+                 <div class="col-2">
+                       <p style="margin-top:3%">No. of Orig:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -9%">
+                        @Html.EditorFor(model => model.workOrder.OriginalNmbr, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.OriginalNmbr, "", new { @class = "text-danger" })
+                       </div>
+
+                       <div class="col-2">
+                       <p style="margin-top:3%">Quantity Per Orig:</p>
+                       </div>
+                       <div class="col-2" style="margin-left: -6%">
+                        @Html.EditorFor(model => model.workOrder.OriginalsQuantity, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.workOrder.OriginalsQuantity, "", new { @class = "text-danger" })
+                       </div>
+             </div>
+             <hr />
+             <div class="row" style="padding-top:2%; text-align:center">
+                 <h6>Special Instructions - or - Special Paper Orders</h6>
+             </div>
+             <div class="row">
+                <div class="form-group col-xs-6" style="white-space: nowrap;">
+                    @Html.TextAreaFor(model => model.workOrder.Note, new { @class = "form-control", rows = "3", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.workOrder.Note, "", new { @class = "text-danger" })
+
+                </div>
+</div>
+@{       
+    if(Model.copyCenters != null)
+    {
+    <table class="table table-bordered table-responsive table-hover">  
+    <tr>  
+                        <th>Size</th>
+                        <th>Product Description</th>
+                        <th>Weight</th>
+                        <th>Type</th>
+                        <th>Qty</th>
+                        <th>Copies</th>
+                        <th>Impress</th>
+                        <th>Unit Cost</th>
+                        <th>Extended Cost</th>
+    </tr>  
+ 
+
+                    @foreach (var item in Model.copyCenters)
+                    {
+                        <tr>
+                            <td style = "background-color:white">
+                                @item.StockSize
+                            </td>
+                            <td style = "background-color:white">
+                                @item.ProductDesc
+                            </td>
+                            <td style = "background-color:white">
+                                @item.ProductWeight
+                            </td>
+                            <td style = "background-color:white">
+                                @item.ProductType
+                            </td>
+                            <td style = "background-color:white">
+                                @item.OriginalQty
+                            </td>
+                            <td style = "background-color:white">
+                                @item.CopiesQty
+                            </td>
+                            <td style = "background-color:white">
+                                @item.ImpressionCnt
+                            </td>
+                            <td style = "background-color:white">
+                                $@item.UnitCost
+                            </td>
+                            <td style = "background-color:white">
+                            $@item.ExtendedCost
+                        </td>
+                        </tr>
+                    }
+ </table>
+                    }}
+
+           <div class="row"style="margin-left: 33%; font-weight: bold; margin-bottom: 1%; text-align:center"> 
+
+           <div class="col-6" >
+                Labor:  @Model.workOrder.PressLaborHrs hours * $@Model.workOrder.WoCopyCntrLaborChg /hr = $@Model.laborCharge
+           </div>
+           </div>
+
+           <div class="row" style="margin-left: 45%; font-weight: bold; margin-bottom:-1%; text-align:center">
+           <div class="col-2">
+
+    <p style="margin-bottom:-1%;">Total price</p>
+                    @{
+                        var totalc = Math.Round((double)Model.totalCost * 100) / 100;
+                        var totalcostcalc = (decimal)totalc;
+                    }
+    <p>$@totalcostcalc</p>
+</div>
+  
+</div>

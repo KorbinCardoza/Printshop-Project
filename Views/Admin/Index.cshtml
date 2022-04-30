@@ -1,0 +1,179 @@
+﻿@model PrintShop.ViewModels.AdminViewModel
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5b2bd23d5f.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+   <script>
+
+   $(document).ready( function () {
+    $('#filterTable').DataTable({ 
+       "order": [[ 4, "desc" ]] 
+    }); 
+} );
+</script>
+
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<h1>Users</h1>
+
+<p>
+    <a asp-action="CreateUser">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserList[0].Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserList[0].Role)
+            </th>
+            <th></th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var user in Model.UserList) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => user.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.Role)
+            </td>
+            <td>
+                <a asp-action="EditUser" asp-route-id="@user.UserId">Edit</a> |
+                <a asp-action="DeleteUser" asp-route-id="@user.UserId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<h1>Products</h1>
+<p>
+    <a asp-action="CreateProduct">Create New</a>
+</p>
+<table id="filterTable" class="display" style="border-collapse: separate; border-spacing: 1em; white-space: nowrap;">
+    <thead>
+        <tr>
+            <th>
+                <p>Product Category</p>              
+            </th>
+            <th>
+                 <p>Stock Size</p>               
+            </th>
+            <th>
+                <p>Product description</p>
+            </th>
+            <th>
+                <p>Product Weight</p>
+            </th>
+            <th>
+                <p>Vendor</p>
+            </th>
+            <th>
+                <p>Vendor Price</p>
+            </th>
+            <th>
+                <p>Type</p>
+            </th>
+            <th>
+                <p>Unit Cost</p>
+            </th>
+            <th>
+                <p>Unit Type</p>
+            </th>
+
+            <th></th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var product in Model.ProductList) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => product.ProductCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.StockSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.ProductDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.ProductWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.ProductVendor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.ProductVendorPrice)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => product.ProductType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.UnitCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.UnitType)
+            </td>
+            <td>
+                <a asp-action="EditProduct" asp-route-id="@product.ProductPkey">Edit</a> |
+                <a asp-action="DeleteProduct" asp-route-id="@product.ProductPkey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<h1>Prices</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Copy Cost B/W</p>
+            </th>
+            <th>
+                <p>Copy Cost Color</p>
+            </th>
+            <th>
+                <p>Copy Center Labor Cost</p>
+            </th>
+            <th>
+                <p>Imaging Cost</p>
+            </th>
+            <th>
+                <p>Film Roll Cost</p>
+            </th>
+            <th></th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.System.CopierCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.System.CopierCostColor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.System.CopyCntrLaborCst)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.System.Imagingcost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.System.FilmRollCost)
+            </td>
+            <td>
+                <a asp-action="EditSystem" asp-route-id="@Model.System.SystemPkey">Edit</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,4 @@
+﻿@model PrintShop.ViewModels.CopyCenterCreateViewModel
+
+<select asp-for="Project" asp-items="Model.Projects" class="form-control"></select>
+<span asp-validation-for="Project" class="text-danger"></span>

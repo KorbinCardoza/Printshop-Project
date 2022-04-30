@@ -1,0 +1,5 @@
+﻿@model PrintShop.ViewModels.CopyCenterCreateViewModel
+
+
+<select asp-for="Unit_Type" asp-items="Model.UnitTypeList" class="form-control"></select>
+<span asp-validation-for="Unit_Type" class="text-danger"></span>

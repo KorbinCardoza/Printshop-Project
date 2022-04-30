@@ -1,0 +1,5 @@
+﻿@model PrintShop.ViewModels.CopyCenterCreateViewModel
+
+
+<select asp-for="Size" asp-items="Model.ProductSizes" class="form-control"></select>
+<span asp-validation-for="Size" class="text-danger"></span>

@@ -1,0 +1,106 @@
+﻿@model IEnumerable<PrintShop.Models.Entity.MailTran>
+
+@{
+    ViewData["Title"] = "Mail";
+}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5b2bd23d5f.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+   <script>
+
+   $(document).ready( function () {
+    $('#filterTable').DataTable();
+} );
+</script>
+       @*  jQuery(function ($) {
+            $('#filterTable').DataTable({
+                "order": [[0, 'desc']]
+            });
+        })(jQuery);
+
+    *@
+<h1  style="text-align: center">Mail</h1>
+
+<p  style="text-align: center">
+    <a class="btn btn-primary" asp-action="Create">Create New Mail Transaction</a>
+</p>
+ @{
+            var roles = @User.Claims.ToList();
+            foreach(var r in roles)
+            {
+                if(r.Value == "Admin")
+                {
+<p  style="text-align: center">
+    <a class="btn btn-primary" asp-action="UpdateMailMeter">Update Mail Meter</a>
+</p>
+                }}}
+<div style="text-align: center">
+    <p>Please enter what you are searching for and click search</p>
+@using (Html.BeginForm("Index","MailTransactions", FormMethod.Post))
+            {
+                <label for="start">Start date:</label>
+                <input type="date" id="start" name="tripstart"                
+                 min="2015-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")">
+
+                <label for="start">End date:</label>
+                <input type="date" id="end" name="tripend"               
+                 min="2015-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")">
+               
+               @Html.DropDownList("action", new SelectList(ViewBag.Actions), "All Actions")
+               @Html.DropDownList("Activ", new SelectList(ViewBag.Activities), "All Activities")
+
+               <input type="submit" class="btn btn-primary btn-sm" value="Search" />
+              
+            }              
+</div>
+        <form id="form1" runaat="server">
+            <table id="filterTable" class="display" style="border-collapse: separate; border-spacing: 1em; white-space: nowrap;">
+                <thead>
+                    <tr>
+                        <th>Activity</th>
+                        <th>ProjectNumber</th>
+                        <th>Task Number</th>
+                        <th>Cost Center</th>
+                        <th>Meter Start</th>
+                        <th>Meter End</th>
+                        <th>Cost</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+@{       
+    if(Model != null)
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style = "background-color:white">
+                                @item.Activity
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.ProjectNumber)
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.TaskNbr)
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.CostCntr)
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.MailMeterBegin)
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.MailMeterEnd)
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.Cost)
+                            </td>
+                            <td style = "background-color:white">
+                                @Html.DisplayFor(modelItem => item.Action)
+                            </td>
+                        </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </form>
